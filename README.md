@@ -408,6 +408,91 @@ Pendientes: conexión con Back-End y validaciones finales.
 - JSON final  
 - Validaciones  
 - Implementación de pasos/imágenes  
-- Vista profesor  
+- Vista profesor
+
+# 📦 Documentación – Base de Datos
+
+## 1. Contexto General
+
+El equipo de Base de Datos es responsable del diseño, implementación y mantenimiento del modelo de datos del sistema **FOODEX**.  
+El objetivo principal es garantizar integridad, consistencia, escalabilidad y seguridad, apoyando tanto al backend como al flujo general del sistema (recetas, ingredientes, usuarios, roles, etapas, inventario).
+
+---
+
+## 2. Infraestructura y Herramientas Utilizadas
+
+| Herramienta           | Uso                               | Beneficios                                                        |
+|-----------------------|------------------------------------|------------------------------------------------------------------|
+| PostgreSQL (Azure)    | Motor de base de datos principal   | Entorno profesional, estable y sin costo (cuenta educativa)      |
+| PgAdmin               | Administración visual              | Creación de tablas, ejecución de scripts, gestión de relaciones, monitoreo |
+| GitHub                | Control de versiones               | Historial, colaboración con Backend, trazabilidad completa       |
+
+---
+
+## 3. Estructura de la Base de Datos
+
+### 3.1 Cantidad y Naturaleza de las Tablas
+
+La base de datos está compuesta por aprox. **10 tablas**, diseñadas según los requerimientos definidos en el PRON.
+
+**Entre las entidades principales se incluyen:**
+
+- recetas  
+- receta_tecnica  
+- receta_etapa  
+- receta_ingrediente  
+- ingredientes  
+- usuarios  
+- rol  
+- categorias_ingrediente  
+- etapas  
+- etapa_ingrediente  
+
+---
+
+### 3.2 Relaciones entre Tablas
+
+El modelo emplea relaciones **1:N** y **M:N** según el dominio gastronómico.
+
+| Tabla M:N           | Descripción                                                                 | Propósito                                      |
+|---------------------|------------------------------------------------------------------------------|------------------------------------------------|
+| receta_ingrediente  | Una receta tiene muchos ingredientes, y un ingrediente puede estar en muchas recetas | Evita duplicación y asegura combinaciones únicas |
+| receta_etapa        | Una receta contiene múltiples etapas; una etapa puede reutilizarse           | Flexibilidad en la secuenciación de pasos      |
+
+**Objetivo general:** mantener integridad referencial y un modelo extensible.
+
+---
+
+## 4. Flujo de Trabajo del Equipo de Base de Datos
+
+| Etapa                         | Descripción                                                       |
+|-------------------------------|-------------------------------------------------------------------|
+| 1. Definición del modelo      | Revisión de requerimientos y solicitudes del backend/profesor     |
+| 2. Creación de scripts SQL    | Cambios documentados y versionados en GitHub                      |
+| 3. Aplicación en PgAdmin      | Ejecución directa en el servidor Azure PostgreSQL                 |
+| 4. Validación                 | Revisión y ajustes con el equipo Backend                          |
+
+---
+
+## 5. Iteración Continua
+
+- Validación permanente con Backend.  
+- Ajuste de relaciones M:N según cambios del proyecto.  
+- Actualización de restricciones e integridad.  
+- Revisión periódica de la evolución del modelo.  
+
+---
+
+## 6. Estado Actual y Observaciones Finales
+
+| Aspecto                    | Estado        |
+|---------------------------|---------------|
+| Motor PostgreSQL en Azure | ✔ Operativo   |
+| Estructura principal      | En refinamiento |
+| Tablas M:N                | En refinamiento |
+| Repositorio GitHub        | ✔ Actualizado y en uso activo |
+| Coordinación con Backend  | ✔ Fluida y continua |
+
+
 
 
