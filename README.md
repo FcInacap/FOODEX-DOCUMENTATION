@@ -410,7 +410,7 @@ Pendientes: conexión con Back-End y validaciones finales.
 - Implementación de pasos/imágenes  
 - Vista profesor
 
-# 📦 Documentación – Base de Datos
+# Documentación – Base de Datos
 
 ## 1. Contexto General
 
