@@ -2,7 +2,7 @@
 
 # 📘 Documentación de Avance del Proyecto FOODEX  
 **Fase:** Entrega Inicial / Definición de Alcance  
-**Periodo Cubierto:** Semanas 1 a 3 (10/11/2025 – 01/12/2025)  
+**Periodo Cubierto:** Semanas 1 a 3  
 **Documentador Responsable:** Abril Castro  
 
 ---
@@ -36,19 +36,12 @@ El sistema debe asegurar:
 **Responsables:** Abril  
 
 ## 2.1. Objetivos y Flujo de Trabajo
-El objetivo es construir un modelo normalizado, robusto y extensible que asegure integridad referencial.  
-El flujo actual incluye:
-
-1. Revisión de requerimientos.  
-2. Definición del modelo lógico.  
-3. Implementación de scripts SQL en PgAdmin.  
-4. Validación continua con Backend.  
-5. Ajustes e iteración permanente.  
+El objetivo del equipo de BD es crear un modelo normalizado y extensible que asegure la integridad referencial. El flujo de trabajo implica la revisión continua de requerimientos y la validación permanente con el Back End antes de la aplicación de scripts en PgAdmin (herramienta necesaria para gestionar las BD en postgreSQL.
 
 ---
 
 ## 2.2. Modelo Relacional: Estructura y Entidades
-
+El modelo se basa en la definición de entidades principales y un conjunto de tablas intermedias (M:M) para gestionar la complejidad de una receta técnica:
 ### A. Entidades y Relaciones 1:N
 
 | Entidad Principal       | Relación 1:N con… | Lógica de Integridad |
@@ -61,6 +54,7 @@ El flujo actual incluye:
 ---
 
 ### B. Relaciones M:N – Núcleo Gastronómico
+Estas tablas gestionan cómo los componentes (ingredientes, etapas, técnicas) se combinan para formar una receta.
 
 | Tabla relacional     | Relaciones              | Atributo Clave     | Función Crítica |
 |----------------------|--------------------------|---------------------|-----------------|
@@ -72,17 +66,19 @@ El flujo actual incluye:
 ---
 
 ## 2.3. Observaciones y Ajustes Pendientes
-- La **Receta Técnica** se vincula al **Ingrediente** para mayor precisión, no a la Receta.  
-- Incorporación de entidad **etapas** y tabla M:N **receta_etapa**.  
-
+Receta Técnica: Se definió que la receta técnica debe ir asociada al Ingrediente, no a la Receta (ej. "Técnica de corte Braseado") para mayor precisión y consistencia técnica.
+Etapas: El modelo inicial no detallaba las etapas. Se ha incorporado la tabla etapas y la tabla M:M receta_etapa para resolver este punto.
 ---
 
 # 3. Avance Detallado: Equipo Back End (BE)
 
 **Framework:** Django + Django REST Framework  
-**Responsable:** Franco Cicerelli  
+**Responsable:** Franco Cicerelli 
+
+El Equipo Backend se centró en la lógica del sistema de manera que los usuarios, los roles,  las recetas, los ingredientes, los pasos y todo lo relacionado con la gestión interna, se estructuré para hacerlo más ordenado, escalable y fácil de mantener.
 
 ## 3.1. Arquitectura y Stack Tecnológico
+El Back End se ha diseñado bajo un enfoque basado en la Arquitectura MVC (Modelo–Vista–Controlador) con separación de capas, para garantizar escalabilidad, precisión de datos y sincronización.
 
 | Componente                 | Tecnología         | Propósito |
 |---------------------------|--------------------|-----------|
@@ -95,15 +91,18 @@ El flujo actual incluye:
 
 ## 3.2. Modelos Lógicos Implementados
 
-- **User**: Compatible con autenticación nativa. Campos de carrera/semestre. Relación protegida con Role.  
-- **Receta**: Trazabilidad completa con timestamps, porciones base, tiempos de preparación.  
-- **PasoProcedimiento**: Control secuencial mediante `orden_procedimiento` y `unique_together`.  
+El equipo de Back End en base a los requerimientos de BD, los ha transformado a modelos de Django, asegurando la lógica de negocio:
+Modelo User: Extiende el modelo base de Django para compatibilidad con autenticación nativa. Incluye campos educativos (semestre, carrera) y relación protegida con Role (on_delete=PROTECT).
+Modelo Receta: Incluye campos de trazabilidad (creado_en, actualizado_en) para auditoría, y campos numéricos clave (porciones_base, tiempo_preparacion_min).
+Modelo PasoProcedimiento: Asegura la secuencia con un campo orden_procedimiento y una restricción unique_together para evitar pasos duplicados en la misma receta.
+
 
 ---
 
 ## 3.3. Endpoints REST y Permisos por Rol
 
 ### Endpoints principales
+Se han definido los siguientes endpoints API que son clave para la propuesta de valor de Foodex:
 
 | Endpoint | Método | Función |
 |----------|--------|---------|
@@ -120,6 +119,8 @@ El flujo actual incluye:
 | `/api/v1/canasta/` | GET / POST | Gestión de stock |
 
 ### Permisos por Rol
+En cuanto los permisos de roles están establecidos de la siguiente forma:
+
 
 | Rol      | Permisos |
 |----------|-----------|
@@ -131,16 +132,17 @@ El flujo actual incluye:
 
 # 4. Avance Detallado: Equipo Control de Calidad (QA)
 
-**Estrategia:** Pruebas de Integración + Puerta de Calidad  
+**Estrategia:** Enfoque en Pruebas de Integración (MVP) y la definición de una Puerta de Calidad continua.  
 **Responsable:** Abril Castro  
 
 ## 4.1. Estrategia y Requisitos de Entrada
+El equipo de QA ha definido su alcance basándose en la necesidad de establecer un "contrato funcional" claro con los desarrolladores.
 
 | Equipo      | Requisito de Entrada | Propósito de QA |
 |-------------|-----------------------|------------------|
-| Back End    | Documentación Swagger | Validar la lógica via pruebas headless (Postman). |
-| Base de Datos | Diagramas y restricciones | Pruebas de integridad, límites y nulos. |
-| Front End   | Builds o staging | Smoke tests + pruebas de usabilidad. |
+| Back End    | Documentación Swagger | Iniciación de Pruebas Headless (pruebas de navegador sin interfaz, directamente con la API enviando solicitudes HTTP) para validar la lógica y las reglas de negocio antes de la integración con el Front End. |
+| Base de Datos | Diagramas y restricciones | Diseño de Pruebas de Validación y Límite (ej. valores nulos, longitud de campos) para garantizar la integridad. |
+| Front End   | Builds o staging | Ejecución de Smoke Tests y pruebas de Interfaz/Usabilidad en el dispositivo objetivo (Tablet). |
 
 ---
 
@@ -168,9 +170,9 @@ El flujo actual incluye:
 
 | Semana | Foco Principal          | Avances Concretos | Estado |
 |--------|--------------------------|--------------------|--------|
-| 1 | Planificación y Setup | Proyecto local creado, mockup aprobado, navegación base lista, diseño adaptado a tablets, repositorio configurado. | Completado |
-| 2 | Desarrollo Core Alumno | Lista y detalle de recetas funcionando con mock data; flujo completo entre pantallas. | Completado |
-| 3 | Interacción (Crear/Editar) | Formularios de creación/edición iniciados y diseñados para integrarse con Backend. | En Proceso |
+| 1 | Planificación y Setup | Se creó el proyecto local y se aprobó el mockup inicial. Se definió la paleta de colores y la tipografía, y se estableció la navegación base. Además, el diseño fue adaptado correctamente para tablets del instituto, asegurando una navegación fluida entre las pantallas principales. El repositorio quedó configurado y funcionando sin errores. | Completado |
+| 2 | Desarrollo Core Alumno | Se implementó la vista de lista de recetas y la vista de detalle utilizando datos mock. El diseño fue validado en tablet y se completó el flujo de navegación entre inicio, lista, detalle y creación, asegurando una experiencia coherente. | Completado |
+| 3 | Interacción (Crear/Editar) | Se inició el desarrollo de los formularios para crear y editar recetas, los cuales están diseñados para integrarse posteriormente con los endpoints del Backend. | En Proceso |
 
 ---
 
