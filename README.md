@@ -1,6 +1,6 @@
 # FOODEX-DOCUMENTATION
 
-# 📘 Documentación de Avance del Proyecto FOODEX  
+#  Documentación de Avance del Proyecto FOODEX  
 **Fase:** Entrega Inicial / Definición de Alcance  
 **Periodo Cubierto:** Semanas 1 a 3  
 **Documentador Responsable:** Abril Castro  
