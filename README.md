@@ -80,7 +80,7 @@ Redoc:
 JSON Schema:
 /api/swagger.json
 
-🔗 Endpoints Principales
+Endpoints Principales
 | Endpoint	| Método	| Función |
 | --------	| -----------	| ----------------- |
 | /api/v1/usuarios |	GET / POST	| Listar o crear usuarios |
@@ -101,7 +101,7 @@ Roles y Permisos:
 
 Declarados en permissions.py.
 
-🛠 Instalación
+Instalación
 1) Clonar repositorio
 git clone <url>
 cd ProyectoIntegrado_Back
@@ -158,7 +158,7 @@ Reestructuración del módulo core en formato profesional
 
 Eliminación de canasta (fuera del alcance real del sistema)
 
-📌 Estado Actual
+Estado Actual
 
 ✔ Backend funcional
 
@@ -170,4 +170,4 @@ Eliminación de canasta (fuera del alcance real del sistema)
 
 ✔ Seguridad JWT activa
 
-❗ Pendiente: controles de seguridad adicionales (validaciones ampliadas)
+Pendiente: controles de seguridad adicionales (validaciones ampliadas)
