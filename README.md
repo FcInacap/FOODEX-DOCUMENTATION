@@ -49,7 +49,7 @@ ProyectoIntegrado_Back/
 │── requirements.txt            # Dependencias del backend
 │── README.md                   # Documentación principal
 
-🔐 Autenticación
+Autenticación
 
 La API usa JWT.
 
@@ -67,7 +67,7 @@ Enviar token
 
 Authorization: Bearer <token>
 
-📄 Documentación API
+Documentación API
 
 Disponible automáticamente:
 
@@ -102,18 +102,18 @@ Roles y Permisos:
 Declarados en permissions.py.
 
 🛠 Instalación
-1️⃣ Clonar repositorio
+1) Clonar repositorio
 git clone <url>
 cd ProyectoIntegrado_Back
 
-2️⃣ Crear entorno virtual
+2) Crear entorno virtual
 python -m venv venv
 venv\Scripts\activate    # Windows
 
-3️⃣ Instalar dependencias
+3) Instalar dependencias
 pip install -r requirements.txt
 
-4️⃣ Configurar variables de entorno
+4) Configurar variables de entorno
 
 Crear archivo .env:
 
@@ -125,7 +125,7 @@ DB_HOST=xxxx
 DB_PORT=5432
 DB_SSLMODE=require
 
-5️⃣ Ejecutar servidor
+5) Ejecutar servidor
 python manage.py runserver
 
 Seeds Automáticos
