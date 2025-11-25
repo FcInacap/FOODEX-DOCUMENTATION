@@ -38,9 +38,9 @@ Proveer una API REST segura, ordenada y escalable para gestionar recetas, ingred
 | Despliegue |	Compatible con Azure Web Services |
 
 ---
-
-## 4. Estructura del Proyecto:
 ```
+## 4. Estructura del Proyecto:
+
 ProyectoIntegrado_Back/
 │
 │── core/                        # Aplicación principal del dominio Foodex
@@ -77,7 +77,6 @@ ProyectoIntegrado_Back/
 │── manage.py                    # Punto de ejecución y CLI de Django
 │── requirements.txt             # Dependencias exactas del entorno local
 ```
-
 **Beneficios:**
 - Código más limpio y fácil de navegar.
 - Permite que varios integrantes trabajen sin generar conflictos.
@@ -132,6 +131,7 @@ Organización de Ingredientes:
 - Clasificados por categoría y unidad de medida.
 - Evita duplicaciones y facilita búsqueda y filtrado.
 
+
 ---
 
 ## 7. Endpoints Principales:
@@ -146,5 +146,114 @@ Organización de Ingredientes:
 | `/api/v1/tecnicas/`     | GET / POST | Listar o crear técnicas culinarias  |
 | `/api/v1/talleres/`     | GET / POST | Listar o crear talleres             |
 | `/api/v1/semestres/`    | GET / POST | Listar o crear semestres académicos |
+
+---
+
+## 8.Seguridad y Autenticación
+
+El backend implementa seguridad basada en:
+
+- JWT (JSON Web Tokens) para autenticación de usuarios.
+- Roles y permisos DRF → acceso controlado según perfil.
+- CORS habilitado, permitiendo comunicación segura con frontend.
+- Uso de HTTPS recomendado en despliegues productivos.
+
+Esto garantiza que solo usuarios autorizados puedan crear, editar o consultar recursos sensibles.
+
+---
+
+## 9. Seeds y Automatización de Datos Iniciales
+
+Con core/seeds.py y signals.py, el sistema crea automáticamente:
+
+- Roles base: Administrador, Profesor, Alumno
+- Semestres académicos
+- Talleres predeterminados
+- Superusuario administrativo
+
+Beneficio: cualquier entorno nuevo (dev, QA, producción) queda operativo sin configuración manual. 
+
+---
+
+## 10. Cambios Relevantes:
+
+- Eliminación definitiva del módulo “canasta”.
+- Normalización completa de nombres en español (Usuario, Rol, Ingrediente…).
+- Limpieza de código duplicado en modelos y serializers.
+- Permissions reorganizados y corregidos.
+- Estructura DRF estandarizada (ModelViewSet + Ruteo automático).
+- Eliminación total de WebSockets.
+
+Mejora:
+✔ Código más claro, limpio y mantenible.
+✔ API más consistente.
+✔ Mejor experiencia para todos los equipos: BD, QA y Frontend.
+ 
+---
+
+## 11. Instalación y Puesta en Marcha:
+
+### 11.1 Clonar el repositorio:
+git clone https://github.com/ProyectoIntegrado_Back.git
+cd ProyectoIntegrado_Back
+
+### 11.2 Crear entorno virtual:
+python -m venv venv
+source venv/bin/activate     # Mac / Linux
+venv\Scripts\activate        # Windows
+
+### 11.3 Instalar dependencias:
+pip install -r requirements.txt
+
+### 11.4 Configurar variables de entorno:
+Crear archivo .env en la raíz del proyecto:
+
+DJANGO_SECRET_KEY=clave_secreta_segura
+DB_NAME=foodex
+DB_USER=postgres
+DB_PASS=tu_clave
+DB_HOST=localhost
+DB_PORT=5432
+DB_SSLMODE=require
+DEBUG=1
+
+### 11.5 Ejecutar migraciones y seeds:
+python manage.py migrate
+
+Esto creará automáticamente:
+
+- Roles (Administrador, Profesor, Alumno)
+- Semestres y talleres base
+- Superusuario admin (si no existe)
+
+
+### 11.6 Iniciar el servidor:
+python manage.py runserver
+
+API disponible en:
+http://127.0.0.1:8000
+
+### 11.7 Documentación de la API:
+Swagger UI:
+http://127.0.0.1:8000/api/docs/
+
+Redoc:
+http://127.0.0.1:8000/api/redoc/
+
+
+### 11.8 Obtener Token JWT:
+POST a:
+http://127.0.0.1:8000/api/token/
+
+Body:
+{
+  "correo_electronico": "admin@foodex.cl",
+  "password": "admin123"
+}
+
+
+### 11.9 Finalizar ejecución:
+CTRL + C
+deactivate
 
 
