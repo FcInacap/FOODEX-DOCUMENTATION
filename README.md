@@ -1,173 +1,149 @@
-# FOODEX-DOCUMENTATION
+# ProyectoIntegrado_DOCS
 
-#  Documentación de Avance del Proyecto FOODEX  
-**Fase:** Entrega Inicial / Definición de Alcance  
-**Periodo Cubierto:** Semanas 1 a 3  
-**Documentador Responsable:** 
+# Documentación - Backend
+**Documentador responsable:** FRANCO CICERELLI  
+**Fase:** Desarrollo del Backend / 3era Entrega
 
-Backend oficial del proyecto FOODEX, un sistema académico para la gestión de recetas, ingredientes, técnicas, etapas, talleres y usuarios dentro de un entorno gastronómico educativo.
-Construido con Django + Django REST Framework, conectado a PostgreSQL en Azure y documentado con Swagger.
+## 1. Contexto general:
+El Equipo Backend se centró en la lógica del sistema de manera que los usuarios, los roles,  las recetas, los ingredientes, los pasos y todo lo relacionado con la gestión interna, se estructuré para hacerlo más ordenado, escalable y fácil de mantener.
 
-Características Principales
+---
 
-API REST modular y segura
+## 2. Objetivos del Back-End:
 
-Autenticación con JWT (SimpleJWT)
+### 2.1 Objetivo general:
+Proveer una API REST segura, ordenada y escalable para gestionar recetas, ingredientes, usuarios, roles, talleres y demás recursos del sistema Foodex.
 
-Conexión a base de datos externa PostgreSQL
+### 2.2 Objetivos específicos:
+- Gestionar usuarios y roles mediante autenticación JWT.
+- Administrar recetas académicas completas con ingredientes, etapas y técnicas.
+- Asegurar integración estable con PostgreSQL en Azure.
+- Estandarizar documentación y pruebas mediante Swagger y DRF.
+- Mantener consistencia de datos base usando seeds automáticos.
+- Exponer endpoints limpios, normalizados y reutilizables para el frontend.
 
-Endpoints limpios y estandarizados
+---
 
-Documentación automática (Swagger / Redoc)
+## 3. Arquitectura del Sistema 
+| Componente | Tecnología |
+|------------|------------|
+| Lenguaje |	Python 3.10+ |
+| Framework |	Django 4.2.7 |
+| API |	Django REST Framework |
+| Autenticación |	JWT (SimpleJWT) |
+| Base de Datos |	PostgreSQL (Azure) |
+| Documentación |	Swagger + drf-yasg |
+| Seguridad |	CORS, SSL, Roles |
+| Configuración |	Variables .env |
+| Despliegue |	Compatible con Azure Web Services |
 
-Control de acceso por roles (Administrador / Profesor / Alumno)
+---
 
-Seeds automáticos para roles, semestres y talleres
+## 4. Estructura del Proyecto:
 
-Basado en ModelViewSet para CRUD escalables
-
-Estructura del Proyecto
 ProyectoIntegrado_Back/
-│── core/
-│   ├── models/                 # Modelos conectados a BD Azure
-│   ├── serializers/            # Serializadores DRF
-│   ├── views/                  # Lógica de endpoints (ViewSets)
-│   ├── permissions.py          # Control de acceso por roles
-│   ├── seeds.py                # Datos iniciales (roles, semestres, talleres)
-│   ├── signals.py              # Ejecuta seeds después de migraciones
-│   ├── swagger_urls.py         # Rutas de Swagger/Redoc
-│   ├── urls.py                 # Enrutamiento interno del módulo
-│   └── admin.py                # Registro de modelos en Django Admin
 │
-│── foodex/
-│   ├── asgi.py                 # Configuración ASGI
-│   ├── settings.py             # Configuración principal (BD, JWT, CORS)
-│   ├── urls.py                 # Rutas globales: admin, JWT, Swagger, API
-│   └── wsgi.py                 # Despliegue clásico WSGI
+│── core/                        # Aplicación principal del dominio Foodex
+│   │
+│   ├── migrations/              # Historial de migraciones (deshabilitadas en producción)
+│   │
+│   ├── models/                  # Mapeo ORM hacia tablas reales de PostgreSQL
+│   │
+│   ├── serializers/             # Serializadores DRF por entidad y relaciones
+│   │
+│   ├── views/                   # ViewSets REST que exponen funcionalidades de la API
+│   │
+│   ├── __init__.py
+│   ├── admin.py                 # Registro de modelos en Django Admin
+│   ├── apps.py                  # Configuración interna de la app Core
+│   ├── permissions.py           # Permisos basados en roles (Admin, Profesor, Alumno)
+│   ├── seeds.py                 # Datos iniciales (roles, talleres, semestres)
+│   ├── signals.py               # post_migrate: ejecuta seeds automáticamente
+│   ├── swagger_urls.py          # Configuración extendida para documentación Swagger
+│   └── urls.py                  # Ruteo REST con DefaultRouter
 │
-│── manage.py                   # Punto de entrada del proyecto Django
-│── requirements.txt            # Dependencias del backend
-│── README.md                   # Documentación principal
+│── foodex/                      # Configuración global del proyecto Django
+│   ├── __init__.py
+│   ├── asgi.py                  # Configuración ASGI (sin Channels)
+│   ├── requirements.txt         # Dependencias del entorno productivo
+│   ├── settings.py              # Configuración principal (DB, JWT, CORS, Swagger)
+│   ├── urls.py                  # Enrutamiento raíz: admin, JWT, Swagger, API v1
+│   └── wsgi.py                  # Configuración WSGI para despliegues tradicionales
+│
+│── .gitattributes               # Normalización de formato en repositorio
+│── .gitignore                   # Archivos y rutas excluidas del control de versiones
+│── CONTRIBUTING.md              # Guía oficial de colaboración del proyecto
+│── README.md                    # Documentación base del repositorio en GitHub
+│── manage.py                    # Punto de ejecución y CLI de Django
+│── requirements.txt             # Dependencias exactas del entorno local
 
-Autenticación
+**Beneficios:**
+- Código más limpio y fácil de navegar.
+- Permite que varios integrantes trabajen sin generar conflictos.
+- Favorece buenas prácticas de Django y DRF.
+- Facilita testing, QA y documentación.
 
-La API usa JWT.
+---
 
-Obtener token
+## 5. Roles y Permisos:
 
-POST /api/token/
+| Rol	          | Permisos                             |
+| -------------	| -----------------------------------  |
+| Administrador |	CRUD completo                        |
+| Profesor	    | Lectura, creación y edición limitada |
+| Alumno	      | Solo lectura (semestres iniciales)   |
+
+---
+
+## 6. Modelos Lógicos y Funcionalidad:
+Cada modelo refleja una entidad real del dominio, permitiendo consultas eficientes, trazabilidad y escalabilidad.
+
+### 6.1 Modelos Principales:
+| Modelo                   | Funcionalidad                                                                        |
+| ------------------------ | ------------------------------------------------------------------------------------ |
+| **Usuario**              | Representa a cualquier persona dentro del sistema (administrador, profesor, alumno). |
+| **Rol**                  | Define permisos y nivel de acceso — base del sistema de seguridad.                   |
+| **UsuarioRol**           | Permite asignar uno o varios roles a un mismo usuario.                               |
+| **Receta**               | Entidad central del sistema; describe una preparación gastronómica académica.        |
+| **Ingrediente**          | Catálogo de insumos utilizados en recetas.                                           |
+| **CategoriaIngrediente** | Agrupa ingredientes para organización, filtrado y control.                           |
+| **Etapa**                | Define pasos secuenciales dentro de una receta.                                      |
+| **Técnica**              | Representa métodos culinarios aplicados durante la preparación.                      |
+| **Taller**               | Identifica el taller o sección académica al que pertenece la receta.                 |
+| **Semestre**             | Indica el periodo formativo asociado al estudiante o taller.                         |
+| **Unidad**               | Define unidades de medida utilizadas por ingredientes (g, ml, unidad, etc.).         |
+
+#### 6.2 Comportamiento del Sistema
+Gestión de Usuarios y Roles:
+
+- Autenticación mediante JWT.
+- Roles controlan permisos sobre endpoints.
+- Usuarios pueden pertenecer a múltiples roles.
+
+Administración de Recetas:
+
+- CRUD completo desde la API.
+- Cada receta posee ingredientes, etapas, técnicas, taller y semestre asociado.
+- Endpoints permiten obtener información completa en un solo request.
+
+Organización de Ingredientes:
+
+- Clasificados por categoría y unidad de medida.
+- Evita duplicaciones y facilita búsqueda y filtrado.
+
+---
+
+## 7. Endpoints Principales:
+
+| Endpoint                | Método     | Función                             |
+| ----------------------- | ---------- | ----------------------------------- |
+| `/api/v1/usuarios/`     | GET / POST | Listar o crear usuarios             |
+| `/api/v1/roles/`        | GET        | Listar roles                        |
+| `/api/v1/recetas/`      | GET / POST | Listar o crear recetas              |
+| `/api/v1/ingredientes/` | GET / POST | Listar o crear ingredientes         |
+| `/api/v1/etapas/`       | GET / POST | Listar o crear etapas               |
+| `/api/v1/tecnicas/`     | GET / POST | Listar o crear técnicas culinarias  |
+| `/api/v1/talleres/`     | GET / POST | Listar o crear talleres             |
+| `/api/v1/semestres/`    | GET / POST | Listar o crear semestres académicos |
 
 
-Refrescar token
-
-POST /api/token/refresh/
-
-
-Enviar token
-
-Authorization: Bearer <token>
-
-Documentación API
-
-Disponible automáticamente:
-
-Swagger UI:
-/api/docs/
-
-Redoc:
-/api/redoc/
-
-JSON Schema:
-/api/swagger.json
-
-Endpoints Principales
-| Endpoint	| Método	| Función |
-| --------	| -----------	| ----------------- |
-| /api/v1/usuarios |	GET / POST	| Listar o crear usuarios |
-| /api/v1/roles/ |	GET	| Listar roles |
-| /api/v1/recetas/ |	GET / POST |	CRUD de recetas |
-| /api/v1/ingredientes/ |	GET / POST |	CRUD de ingredientes | 
-| /api/v1/etapas/ |	GET / POST |	CRUD de etapas |
-| /api/v1/tecnicas/ |	GET / POST |	CRUD de técnicas |
-| /api/v1/talleres/	| GET / POST |	CRUD de talleres |
-| /api/v1/semestres/	| GET / POST |	CRUD de semestres |
-
-Roles y Permisos:
-| Rol	| Permisos |
-| ------	| ------	|
-| Administrador |	CRUD completo |
-| Profesor	| Lectura + creación/edición limitada |
-| Alumno	| Solo lectura |
-
-Declarados en permissions.py.
-
-Instalación
-1) Clonar repositorio
-git clone <url>
-cd ProyectoIntegrado_Back
-
-2) Crear entorno virtual
-python -m venv venv
-venv\Scripts\activate    # Windows
-
-3) Instalar dependencias
-pip install -r requirements.txt
-
-4) Configurar variables de entorno
-
-Crear archivo .env:
-
-DJANGO_SECRET_KEY=xxxxx
-DB_NAME=xxxx
-DB_USER=xxxx
-DB_PASS=xxxx
-DB_HOST=xxxx
-DB_PORT=5432
-DB_SSLMODE=require
-
-5) Ejecutar servidor
-python manage.py runserver
-
-Seeds Automáticos
-
-Cada vez que se ejecuta una migración, se crean automáticamente:
-
-Roles: Administrador, Profesor, Alumno
-
-Semestres iniciales
-
-Talleres base
-
-Definido en:
-✔ core/seeds.py
-✔ core/signals.py
-
-Cambios Técnicos Recientes
-
-Eliminación de Channels y WebSockets (no usados en producción)
-
-Limpieza completa de archivos duplicados (User/Usuario, Role/Rol, etc.)
-
-Normalización de serializers y ViewSets
-
-Estándar final de rutas con DefaultRouter
-
-Corrección de seeds y duplicados de roles
-
-Reestructuración del módulo core en formato profesional
-
-Eliminación de canasta (fuera del alcance real del sistema)
-
-Estado Actual
-
-✔ Backend funcional
-
-✔ Endpoints estandarizados
-
-✔ BD compatible con Azure
-
-✔ Swagger operativo
-
-✔ Seguridad JWT activa
-
-Pendiente: controles de seguridad adicionales (validaciones ampliadas)
