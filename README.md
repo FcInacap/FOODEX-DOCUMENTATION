@@ -185,9 +185,9 @@ Beneficio: cualquier entorno nuevo (dev, QA, producción) queda operativo sin co
 - Eliminación total de WebSockets.
 
 Mejora:
-✔ Código más claro, limpio y mantenible.
-✔ API más consistente.
-✔ Mejor experiencia para todos los equipos: BD, QA y Frontend.
+- Código más claro, limpio y mantenible.
+- API más consistente.
+- Mejor experiencia para todos los equipos: BD, QA y Frontend.
  
 ---
 
