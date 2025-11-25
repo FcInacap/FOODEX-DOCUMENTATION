@@ -171,7 +171,7 @@ Con core/seeds.py y signals.py, el sistema crea automáticamente:
 - Talleres predeterminados
 - Superusuario administrativo
 
-Beneficio: cualquier entorno nuevo (dev, QA, producción) queda operativo sin configuración manual. 
+Beneficio: cualquier entorno nuevo  (QA o Producción) queda operativo sin configuración manual. 
 
 ---
 
@@ -256,4 +256,10 @@ Body:
 CTRL + C
 deactivate
 
+## Resultado esperado:
 
+- Backend funcionando correctamente
+- API documentada y accesible con Swagger
+- Conexión estable a PostgreSQL o SQLite local
+- Datos iniciales creados automáticamente
+- Listo para ser consumido por Frontend y QA
