@@ -40,7 +40,7 @@ Proveer una API REST segura, ordenada y escalable para gestionar recetas, ingred
 ---
 
 ## 4. Estructura del Proyecto:
-
+```
 ProyectoIntegrado_Back/
 │
 │── core/                        # Aplicación principal del dominio Foodex
@@ -76,6 +76,7 @@ ProyectoIntegrado_Back/
 │── README.md                    # Documentación base del repositorio en GitHub
 │── manage.py                    # Punto de ejecución y CLI de Django
 │── requirements.txt             # Dependencias exactas del entorno local
+```
 
 **Beneficios:**
 - Código más limpio y fácil de navegar.
